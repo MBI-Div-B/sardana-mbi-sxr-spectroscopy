@@ -1,0 +1,55 @@
+tango_host: ampere.sxr.lab:10000
+macro_servers:
+  spectroscopy:
+    tango_server: MacroServer
+    macro_path:
+    - /home/labuser/Sardana/experiments/spectroscopy/macros
+    environment_db: /tmp/tmpso2iqxir/MacroServer/spectroscopy/macroserver.properties
+    doors:
+      Door_spectroscopy_1:
+        tango_device: Door/spectroscopy/1
+pools:
+  spectroscopy:
+    tango_server: Pool
+    pool_path:
+    - /home/labuser/Sardana/experiments/spectroscopy/controllers
+    measurement_groups:
+      msg_epoch_only_spec:
+        channels:
+        - epoch_spec
+    controllers:
+      mbiTangoMotorCtrl_spec:
+        type: Motor
+        python_class: MbiTangoMotorController
+        python_module: MbiTangoMotorController.py
+        elements:
+          target_x:
+            axis: 1
+            attributes:
+              Tango_Device: spec/PhyMotion/target_x
+          target_y:
+            axis: 2
+            attributes:
+              Tango_Device: spec/PhyMotion/target_y
+          target_z:
+            axis: 3
+            attributes:
+              Tango_Device: spec/PhyMotion/target_z
+          pulley:
+            axis: 4
+            attributes:
+              Tango_Device: spec/PhyMotion/wire_pulley
+      PiLCTimerCtrl_spec:
+        type: CTExpChannel
+        python_class: PiLCCounterTimerController
+        python_module: PiLCCounterTimerController.py
+        elements:
+          pilc_gate_spec:
+            axis: 0
+      epochCtrl_spec:
+        type: CTExpChannel
+        python_class: EpochCounterTimerController
+        python_module: EpochCounterTimerController.py
+        elements:
+          epoch_spec:
+            axis: 0

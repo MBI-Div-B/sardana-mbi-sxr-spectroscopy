@@ -1,0 +1,1 @@
+../../../controller-repos/sardana-SmaractMCS2TangoMotorController/SmaractMCS2TangoMotorController.py

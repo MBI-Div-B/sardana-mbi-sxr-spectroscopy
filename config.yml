@@ -1,0 +1,63 @@
+macro_servers:
+  spectroscopy:
+    doors:
+      Door_spectroscopy_1:
+pools:
+  spectroscopy:
+    pool_path:
+    - /home/labuser/Sardana/controller-repos/sardana-SXRcontrollers
+    measurement_groups:
+      spectroscopy:
+        channels:
+        - pilc_gate_spec
+    controllers:
+      PiLCTimerCtrl_spec:
+        type: CTExpChannel
+        python_class: PiLCCounterTimerController
+        python_module: PiLCCounterTimerController.py
+        properties:
+          tangofqdn: sxr/pilctriggergategenerator/1
+        attributes:
+          TriggerMode: 0
+        elements:
+          pilc_gate_spec:
+            axis: 0
+      epochCtrl_spec:
+        type: CTExpChannel
+        python_class: EpochCounterTimerController
+        python_module: EpochCounterTimerController.py
+        elements:
+          epoch_spec:
+            axis: 0
+      pi-mteCtrl_spec:
+        type: TwoDExpChannel
+        python_class: PIMTETangoTwoDController
+        python_module: PIMTETangoTwoDController.py
+        properties:
+          tangofqdn: sxr/LightField/mte
+        elements:
+          mte_spec:
+            axis: 0
+  beamline:
+    tango_server: Pool
+    pool_path:
+    - /home/labuser/Sardana/controller-repos/sardana-SXRcontrollers
+    controllers:
+      mbiTangoMotorCtrl_beamline:
+        type: Motor
+        python_class: MbiTangoMotorController
+        python_module: MbiTangoMotorController.py
+        elements:
+          delay_stage:
+            axis: 0
+            attributes:
+              Tango_Device: laser/PhytronMCC2/delay_stage
+      delayCtrl:
+        type: PseudoMotor
+        python_class: DelayPseudoMotorController
+        python_module: DelayPseudoMotorController.py
+        physical_roles:
+          InputMotor: delay_stage
+        elements:
+          delay:
+            axis: 1
